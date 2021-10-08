@@ -72,6 +72,7 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
 
   const onNextPage = useCallback(() => {
     setPage(page + 1);
+    reFetch();
   }, [page]);
 
   useOnFocusNavigation(navigation, reFetch);
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 12,
     paddingVertical: 16,
+    paddingBottom: 100,
   },
   // TODO: move this as common component
   input: {

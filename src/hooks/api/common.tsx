@@ -7,8 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {STORAGE_ACCESS_TOKEN_KEY} from '../../constant';
 
 // export const API_BASE_URL = 'http://10.0.2.2:3000/v1';
-// export const API_BASE_URL = 'http://192.168.43.248:3000/v1';
-export const API_BASE_URL = 'http://192.168.1.17:3000/v1';
+export const API_BASE_URL = 'http://139.59.124.13/v1';
+// export const API_BASE_URL = 'http://192.168.1.17:3000/v1';
 
 interface IFetch {
   error: ApiError[] | undefined;
