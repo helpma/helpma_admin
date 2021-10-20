@@ -66,3 +66,8 @@ export const useCreatePregnancyCheckAction = () =>
     '/pregnancy-information/action',
     'POST',
   );
+
+export const useGetPreviousPregnancyCheckResult = (pregnancyChecyId: string) =>
+  useGet<PregnancyCheckResult, any>(
+    `/pregnancy-information/result/previous/${pregnancyChecyId}`,
+  );

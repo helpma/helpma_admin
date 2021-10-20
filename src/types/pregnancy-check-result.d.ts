@@ -2,6 +2,7 @@ export interface PregnancyCheckResult {
   id: string;
   pregnancyCheckId: string;
   weight?: number;
+  height?: number;
   bloodPressure?: number;
   lila?: number;
   fundusUteriHeight?: number;

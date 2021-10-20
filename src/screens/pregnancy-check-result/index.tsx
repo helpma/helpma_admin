@@ -5,6 +5,7 @@ import {Button, TextField} from '../../components';
 import {useForm} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
+  formatLocalDate,
   formatLocalDateTime,
   GenerateFormError,
   GetApiErrorByKey,
@@ -20,6 +21,7 @@ import {
 import {navigate} from '../../hooks/navigation';
 import MapView, {Marker} from 'react-native-maps';
 import useOnFocusNavigation from '../../hooks/navigation/focus';
+import ImtInformation from './imt';
 
 const PregnancyCheckResultScreen = ({
   route,
@@ -31,6 +33,7 @@ const PregnancyCheckResultScreen = ({
     handleSubmit,
     formState: {errors},
     setValue,
+    watch,
   } = useForm();
 
   const {data: pregnancyCheckDetail, reFetch: refetchCheckDetail} =
@@ -63,6 +66,7 @@ const PregnancyCheckResultScreen = ({
     console.log({resultDetail});
     if (resultDetail) {
       setValue('weight', resultDetail.weight?.toString());
+      setValue('height', resultDetail.height?.toString());
       setValue('bloodPressure', resultDetail.bloodPressure);
       setValue('lila', resultDetail.lila?.toString());
       setValue('fundusUteriHeight', resultDetail.fundusUteriHeight?.toString());
@@ -125,13 +129,17 @@ const PregnancyCheckResultScreen = ({
     [saveCheckResult, pregnancyCheckId, resultDetail],
   );
 
+  const formWeight = watch('weight');
+  const formHeight = watch('height');
+
   return (
     <ScrollView>
       <View style={styles.pageContainer}>
         <View style={styles.container}>
           <Text style={styles.partTitle}>Detail Jadwal Cek</Text>
           <Text style={styles.title}>
-            Tanggal Cek: {formatLocalDateTime(pregnancyCheckDetail?.date)}
+            Tanggal Cek: {formatLocalDateTime(pregnancyCheckDetail?.date)}{' '}
+            (Batas Akhir: {formatLocalDate(pregnancyCheckDetail?.dateEnd)})
           </Text>
           {pregnancyCheckDetail?.status === 'WAITING' && (
             <View style={styles.detailActionContainer}>
@@ -232,7 +240,6 @@ const PregnancyCheckResultScreen = ({
               rules={{required: true}}
               label="Berat Badan (kg)"
               keyboardType="number-pad"
-              placeholder="70"
               error={
                 GenerateFormError(errors.weight) ||
                 GetApiErrorByKey('weight', error)
@@ -240,9 +247,25 @@ const PregnancyCheckResultScreen = ({
             />
             <TextField
               control={control}
+              id="height"
+              rules={{required: true}}
+              label="Tinggi Badan (cm)"
+              keyboardType="number-pad"
+              error={
+                GenerateFormError(errors.height) ||
+                GetApiErrorByKey('height', error)
+              }
+            />
+            <ImtInformation
+              weight={formWeight}
+              height={formHeight}
+              currWeight={formWeight}
+              pregnancyCheckId={pregnancyCheckId}
+            />
+            <TextField
+              control={control}
               id="bloodPressure"
-              label="Tekanan Darah"
-              placeholder="120/80"
+              label="Tekanan Darah (mmHg)"
               error={
                 GenerateFormError(errors.bloodPressure) ||
                 GetApiErrorByKey('bloodPressure', error)
@@ -253,7 +276,6 @@ const PregnancyCheckResultScreen = ({
               id="lila"
               label="LiLa (cm)"
               keyboardType="number-pad"
-              placeholder="30"
               error={
                 GenerateFormError(errors.lila) ||
                 GetApiErrorByKey('bloodPressure', error)
@@ -264,7 +286,6 @@ const PregnancyCheckResultScreen = ({
               id="fundusUteriHeight"
               label="Tinggi Fundus Uteri (cm)"
               keyboardType="number-pad"
-              placeholder="20"
               error={
                 GenerateFormError(errors.fundusUteriHeight) ||
                 GetApiErrorByKey('fundusUteriHeight', error)
@@ -273,9 +294,8 @@ const PregnancyCheckResultScreen = ({
             <TextField
               control={control}
               id="ironTabletsAmount"
-              label="Banyak Tablet Zat Besi"
+              label="Banyak Tablet Zat Besi (buah)"
               keyboardType="number-pad"
-              placeholder="1"
               error={
                 GenerateFormError(errors.ironTabletsAmount) ||
                 GetApiErrorByKey('ironTabletsAmount', error)
@@ -284,9 +304,8 @@ const PregnancyCheckResultScreen = ({
             <TextField
               control={control}
               id="hbAmount"
-              label="Hb Amount"
+              label="Jumlah Hb (gr/dl)"
               keyboardType="number-pad"
-              placeholder="100"
               error={
                 GenerateFormError(errors.hbAmount) ||
                 GetApiErrorByKey('hbAmount', error)
