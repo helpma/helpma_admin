@@ -6,6 +6,7 @@ import PregnancyCheckScreen from './pregnancy-check';
 import ProfileScreen from './profile';
 import {THEME} from '../../constant';
 import InboxScreen from './inbox';
+import InformationScreen from './information';
 
 const Drawer = createDrawerNavigator();
 
@@ -41,6 +42,14 @@ const DashboardScreen = () => {
         component={ProfileScreen}
         options={{
           title: 'Profil Anda',
+          headerTitleStyle: THEME.body,
+        }}
+      />
+      <Drawer.Screen
+        name="InformationScreen"
+        component={InformationScreen}
+        options={{
+          title: 'Informasi',
           headerTitleStyle: THEME.body,
         }}
       />

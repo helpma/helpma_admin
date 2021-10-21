@@ -9,6 +9,7 @@ export enum PREGNANCY_CHECK_STATUS {
 export interface PregnancyCheck {
   id: string;
   date: string;
+  dateEnd: string;
   status: PREGNANCY_CHECK_STATUS;
   checkAction?: PregnancyCheckAction;
 }
@@ -38,10 +39,12 @@ export interface UserPregnancyCheckDetail {
 export interface AddPregnancyCheckRequest {
   userId: string;
   date: string;
+  dateEnd: string;
 }
 
 export interface UpdatePregnancyCheckRequest {
   checkDate?: string;
+  checkDateEnd?: string;
   status?: PREGNANCY_CHECK_STATUS;
 }
 

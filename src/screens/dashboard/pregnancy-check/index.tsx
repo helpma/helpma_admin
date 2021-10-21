@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 12,
     paddingVertical: 16,
-    paddingBottom: 48,
+    paddingBottom: 100,
   },
   input: {
     backgroundColor: 'white',

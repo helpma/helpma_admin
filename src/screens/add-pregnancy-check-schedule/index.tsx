@@ -25,8 +25,11 @@ const AddPregnancyCheckScheduleScreen = ({
   } = useForm();
   const [isDatePickerVisible, setIsDatePickerVisible] =
     useState<boolean>(false);
+  const [isDatePickerEndVisible, setIsDatePickerEndVisible] =
+    useState<boolean>(false);
 
   const [checkDate, setCheckDate] = useState<string>('');
+  const [checkDateEnd, setCheckDateEnd] = useState<string>('');
 
   const showDatePicker = useCallback(() => {
     setIsDatePickerVisible(true);
@@ -43,6 +46,15 @@ const AddPregnancyCheckScheduleScreen = ({
       hideDatePicker();
     },
     [setValue, hideDatePicker],
+  );
+
+  const handleConfirmEnd = useCallback(
+    date => {
+      setCheckDateEnd(date.toISOString());
+      setValue('dateEnd', formatLocalDateTime(date.toISOString()));
+      setIsDatePickerEndVisible(false);
+    },
+    [setValue],
   );
 
   const {
@@ -69,6 +81,7 @@ const AddPregnancyCheckScheduleScreen = ({
       fetchCreate({
         userId,
         date: checkDate,
+        dateEnd: checkDateEnd,
       })
         .then(() => {
           navigate('PregnancyCheckDetailScreen', {
@@ -79,6 +92,7 @@ const AddPregnancyCheckScheduleScreen = ({
     } else {
       fetchUpdate({
         checkDate,
+        checkDateEnd,
       })
         .then(() => {
           navigate('PregnancyCheckResultScreen', {
@@ -89,7 +103,14 @@ const AddPregnancyCheckScheduleScreen = ({
         })
         .catch(console.log);
     }
-  }, [pregnancyCheckId, userId, checkDate, fetchUpdate, fetchCreate]);
+  }, [
+    pregnancyCheckId,
+    userId,
+    checkDate,
+    fetchUpdate,
+    fetchCreate,
+    checkDateEnd,
+  ]);
 
   return (
     <View style={styles.container}>
@@ -107,6 +128,21 @@ const AddPregnancyCheckScheduleScreen = ({
             error={GenerateFormError(errors.date)}
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setIsDatePickerEndVisible(true);
+          }}>
+          <TextField
+            label="Waktu Cek (Batas Akhir)"
+            control={control}
+            rules={{
+              required: true,
+            }}
+            id="dateEnd"
+            editable={false}
+            error={GenerateFormError(errors.dateEnd)}
+          />
+        </TouchableOpacity>
         <Button title="Simpan" onPress={handleSubmit(onSubmit)} />
       </View>
       <DateTimePickerModal
@@ -114,6 +150,14 @@ const AddPregnancyCheckScheduleScreen = ({
         mode="datetime"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+      />
+      <DateTimePickerModal
+        isVisible={isDatePickerEndVisible}
+        mode="datetime"
+        onConfirm={handleConfirmEnd}
+        onCancel={() => {
+          setIsDatePickerEndVisible(false);
+        }}
       />
     </View>
   );

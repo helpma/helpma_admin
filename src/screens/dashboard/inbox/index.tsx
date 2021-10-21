@@ -45,7 +45,8 @@ const InboxScreen = ({navigation}: NativeStackScreenProps<any>) => {
   }, [incomingMessage]);
 
   return (
-    <View style={{paddingHorizontal: 16, paddingVertical: 12}}>
+    <View
+      style={{paddingHorizontal: 16, paddingVertical: 12, paddingBottom: 100}}>
       <FlatList
         data={data?.list || []}
         renderItem={({item}) => (

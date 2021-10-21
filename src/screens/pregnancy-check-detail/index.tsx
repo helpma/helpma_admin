@@ -17,7 +17,7 @@ import {navigate} from '../../hooks/navigation';
 import {useGetUserPregnancyCheckDetail} from '../../hooks/api/pregnancy-check';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PregnancyCheck} from '../../types';
-import {formatLocalDateTime} from '../../util';
+import {formatLocalDate, formatLocalDateTime} from '../../util';
 import {Button} from '../../components';
 import useOnFocusNavigation from '../../hooks/navigation/focus';
 
@@ -67,6 +67,9 @@ const PregnancyCheckDetailScreen = ({
                 <Text style={styles.infoLabel}>Jadwal Cek ke - {key + 1}</Text>
                 <Text style={styles.infoValue}>
                   {formatLocalDateTime(item.date)}
+                </Text>
+                <Text style={styles.infoValueSecond}>
+                  Batas Akhir: {formatLocalDate(item.dateEnd)}
                 </Text>
               </View>
               <View
@@ -142,6 +145,11 @@ const styles = StyleSheet.create({
   infoValue: {
     ...THEME.body,
     fontSize: 16,
+  },
+  infoValueSecond: {
+    ...THEME.body,
+    fontSize: 12,
+    color: 'grey',
   },
   bio: {
     ...THEME.body,

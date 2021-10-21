@@ -8,17 +8,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {navigate} from '../../../hooks/navigation';
-import {useGetPersonalInformationList} from '../../../hooks/api/personal-information';
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {LoadMoreButton} from '../../../components';
-import {DEFAULT_PAGE_SIZE} from '../../../constant';
-import {UserPersonalInformation} from '../../../types';
-import {useDebounce} from '../../../hooks/debounce';
+import { navigate } from '../../../hooks/navigation';
+import { useGetPersonalInformationList } from '../../../hooks/api/personal-information';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { LoadMoreButton } from '../../../components';
+import { DEFAULT_PAGE_SIZE } from '../../../constant';
+import { UserPersonalInformation } from '../../../types';
+import { useDebounce } from '../../../hooks/debounce';
 import useOnFocusNavigation from '../../../hooks/navigation/focus';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
+const PersonalInfoScreen = ({ navigation }: NativeStackScreenProps<any>) => {
   const [page, setPage] = useState<number>(0);
   const [data, setData] = useState<UserPersonalInformation[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -32,7 +32,7 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
     }, [searchQuery]),
   );
 
-  const {data: apiData, reFetch, isLoading} = useGetPersonalInformationList(
+  const { data: apiData, reFetch, isLoading } = useGetPersonalInformationList(
     useMemo(
       () => ({
         pageSize: DEFAULT_PAGE_SIZE,
@@ -73,12 +73,13 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
 
   const onNextPage = useCallback(() => {
     setPage(page + 1);
+    reFetch();
   }, [page]);
 
   useOnFocusNavigation(navigation, reFetch);
 
   useEffect(() => {
-      reFetch()
+    reFetch()
   }, [query])
   return (
     <View style={styles.container}>
@@ -90,7 +91,7 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
 
       {isLoading ? <ActivityIndicator /> : <><FlatList
         data={data}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
               navigate('PersonalInfoDetailScreen', {
@@ -101,7 +102,7 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
           </TouchableOpacity>
         )} />
 
-      {isLoadMore && <LoadMoreButton onPress={onNextPage} />}</>}
+        {isLoadMore && <LoadMoreButton onPress={onNextPage} />}</>}
     </View>
   );
 };
@@ -109,8 +110,8 @@ const PersonalInfoScreen = ({navigation}: NativeStackScreenProps<any>) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 12,
-    paddingTop: 16,
-    paddingBottom: 48
+    paddingVertical: 16,
+    paddingBottom: 100,
   },
   // TODO: move this as common component
   input: {

@@ -16,5 +16,20 @@ export const STORAGE_ACCESS_TOKEN_KEY = 'accessToken';
 
 export const DEFAULT_PAGE_SIZE = 15;
 
+export const SHADOWED_STYLE = {
+  shadowColor: 'grey',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+};
+
+export const BUTTON_STYLE = {
+  backgroundColor: PRIMARY_COLOR,
+  borderRadius: 6,
+};
+
 export * from './rule';
-export * from './style';
