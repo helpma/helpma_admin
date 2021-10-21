@@ -18,6 +18,7 @@ import {
 import useOnFocusNavigation from '../../hooks/navigation/focus';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {PRIMARY_COLOR, SHADOWED_STYLE} from '../../constant';
+import { useNotification } from '../../hooks/notification';
 
 const ChatAvatarPlaceholder = () => {
   return (
@@ -38,6 +39,7 @@ const ChatScreen: React.FC<NativeStackScreenProps<any>> = ({
   route,
   navigation,
 }) => {
+  const { incomingMessage } = useNotification()
   const {roomId, userId, phoneNumber}: any = route.params;
 
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -82,6 +84,31 @@ const ChatScreen: React.FC<NativeStackScreenProps<any>> = ({
     },
     [sendChat, roomId],
   );
+
+  useEffect(() => {
+    if (incomingMessage) {
+      const {data} = incomingMessage;
+      if (data.eventType === 'CHAT') {
+        setMessages(prevState => {
+          return [
+            {
+              _id: data.chatId,
+              text: data.chatMessage,
+              createdAt: new Date(),
+              user: {
+                _id: data.senderId,
+                name: data.senderFullname,
+                avatar: !!data.senderProfilePict
+                  ? data.senderProfilePict
+                  : () => <ChatAvatarPlaceholder />,
+              },
+            },
+            ...prevState,
+          ];
+        });
+      }
+    }
+  }, [incomingMessage]);
 
   const onConfirmCall = useCallback(() => {
     Alert.alert(

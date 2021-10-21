@@ -13,3 +13,8 @@ export interface UpdatePasswordRequest {
   newPassword: string;
   confirmPassword: string;
 }
+
+
+export interface UpdateFCMTokenRequest {
+  fcmToken: string;
+}

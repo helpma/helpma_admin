@@ -8,7 +8,7 @@ import {STORAGE_ACCESS_TOKEN_KEY} from '../../constant';
 
 // export const API_BASE_URL = 'http://10.0.2.2:3000/v1';
 // export const API_BASE_URL = 'http://192.168.43.248:3000/v1';
-export const API_BASE_URL = 'http://192.168.1.17:3000/v1';
+export const API_BASE_URL = 'http://139.59.124.13/api/v1';
 
 interface IFetch {
   error: ApiError[] | undefined;
@@ -32,6 +32,7 @@ export const useGet = <TResponse, TRequest>(
   useEffect(() => {
     if (!isFetched) {
       const doFetch = async () => {
+        console.log({params})
         try {
           const accessToken = await AsyncStorage.getItem(
             STORAGE_ACCESS_TOKEN_KEY,
@@ -150,7 +151,7 @@ export const usePost = <TResponse, TRequest>(
           }
         }
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         Alert.alert(
           'Terjadi kesalahan',
           err.message || 'Terjadi kesalahan. Silahkan coba beberapa saat lagi',

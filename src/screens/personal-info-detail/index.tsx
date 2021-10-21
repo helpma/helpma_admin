@@ -9,15 +9,34 @@ import {
 } from 'react-native';
 import {PRIMARY_COLOR, SHADOWED_STYLE, THEME} from '../../constant';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useGetPersonalInformationDetail} from '../../hooks/api/personal-information';
+import {useGetMyPersonalInformation, useGetPersonalInformationDetail} from '../../hooks/api/personal-information';
 import {calculateAge, formatLocalDate} from '../../util';
 import MapView, {Marker} from 'react-native-maps';
+import { Button } from '../../components';
+import { useCreateInbox } from '../../hooks/api';
+import { navigate } from '../../hooks/navigation';
 
 const PersonalInfoDetailScreen: React.FC<NativeStackScreenProps<any>> = ({
   route,
 }: NativeStackScreenProps<any>) => {
   const {userId}: any = route.params;
   const {data, isLoading} = useGetPersonalInformationDetail(userId);
+
+  const {doFetch: createInbox} = useCreateInbox();
+  const {data: myInfo} = useGetMyPersonalInformation();
+
+  const redirectToChat = React.useCallback(() => {
+    createInbox({
+      userId,
+    })
+      .then(res => {
+        navigate('ChatScreen', {
+          roomId: res?.id,
+          userId: myInfo?.id,
+        });
+      })
+      .catch(console.log);
+  }, [userId])
 
   return isLoading ? (
     <ActivityIndicator />
@@ -124,6 +143,9 @@ const PersonalInfoDetailScreen: React.FC<NativeStackScreenProps<any>> = ({
             <Text style={styles.infoLabel}>Jumlah Anak</Text>
             <Text style={styles.infoValue}>{data?.childAmount || '-'}</Text>
           </View>
+        </View>
+        <View style={{ paddingHorizontal: 8 }}>
+          <Button onPress={redirectToChat} title="Hubungi" />
         </View>
       </View>
     </ScrollView>

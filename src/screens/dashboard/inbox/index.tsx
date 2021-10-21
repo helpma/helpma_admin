@@ -7,8 +7,11 @@ import {useCallback} from 'react';
 import {useGetMyPersonalInformation} from '../../../hooks/api/personal-information';
 import useOnFocusNavigation from '../../../hooks/navigation/focus';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { useNotification } from '../../../hooks/notification';
 
 const InboxScreen = ({navigation}: NativeStackScreenProps<any>) => {
+  const {incomingMessage} = useNotification();
+
   const {data, reFetch} = useGetMyInbox();
   const {doFetch: createInbox} = useCreateInbox();
   const {data: myInfo} = useGetMyPersonalInformation();
@@ -31,6 +34,15 @@ const InboxScreen = ({navigation}: NativeStackScreenProps<any>) => {
     },
     [createInbox, myInfo],
   );
+
+  React.useEffect(() => {
+    if (incomingMessage) {
+      const {data} = incomingMessage;
+      if (data.eventType === 'CHAT') {
+        reFetch();
+      }
+    }
+  }, [incomingMessage]);
 
   return (
     <View style={{paddingHorizontal: 16, paddingVertical: 12}}>

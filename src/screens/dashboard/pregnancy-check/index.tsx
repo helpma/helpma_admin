@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   TextInput,
@@ -28,12 +29,11 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
     useCallback(() => {
       if (searchQuery) {
         setPage(0);
-        setData([]);
       }
     }, [searchQuery]),
   );
 
-  const {data: apiData, reFetch} = useGetPregnancyCheckList(
+  const {data: apiData, reFetch, isLoading} = useGetPregnancyCheckList(
     useMemo(
       () => ({
         pageSize: DEFAULT_PAGE_SIZE,
@@ -44,6 +44,10 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
     ),
   );
 
+  useEffect(() => {
+    reFetch()
+  }, [query])
+
   useOnFocusNavigation(navigation, reFetch);
 
   const [totalData, setTotalData] = useState<number>(0);
@@ -51,7 +55,7 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
   useEffect(() => {
     if (!!apiData && !!apiData.list?.length) {
       setData(prevState => {
-        if (!prevState.length) {
+        if (page === 0) {
           return apiData.list;
         } else {
           console.log(prevState[0].user.id, apiData.list[0].user.id);
@@ -63,7 +67,7 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
         }
       });
     }
-  }, [apiData]);
+  }, [apiData, page]);
 
   useEffect(() => {
     if (!!apiData && apiData?.total > 0) {
@@ -89,7 +93,7 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
         onChangeText={setSearchQuery}
       />
 
-      <FlatList
+      {isLoading ? <ActivityIndicator /> : <><FlatList
         data={data}
         renderItem={({item}) => (
           <TouchableOpacity
@@ -103,7 +107,7 @@ const PregnancyCheckScreen = ({navigation}: NativeStackScreenProps<any>) => {
         )}
       />
 
-      {isLoadMore && <LoadMoreButton onPress={onNextPage} />}
+      {isLoadMore && <LoadMoreButton onPress={onNextPage} />}</>}
     </View>
   );
 };

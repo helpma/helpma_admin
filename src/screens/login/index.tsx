@@ -6,13 +6,14 @@ import {
   SHADOWED_STYLE,
   STORAGE_ACCESS_TOKEN_KEY,
 } from '../../constant';
-import {useLogin} from '../../hooks/api';
+import {useLogin, useUpdateFCMToken} from '../../hooks/api';
 import {useForm} from 'react-hook-form';
 import {useCallback} from 'react';
 import {ListErrorDisplay} from '../../components';
 import {GenerateFormError, GetApiErrorByKey} from '../../util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {navigate} from '../../hooks/navigation';
+import {navigate, replace} from '../../hooks/navigation';
+import messaging from '@react-native-firebase/messaging';
 
 const LoginScreen = () => {
   const {
@@ -21,6 +22,7 @@ const LoginScreen = () => {
     handleSubmit,
   } = useForm();
   const {doFetch, error: apiErrors, isLoading} = useLogin();
+  const {doFetch: updateFCMToken} = useUpdateFCMToken();
 
   const onSubmit = useCallback(
     data => {
@@ -32,7 +34,14 @@ const LoginScreen = () => {
           STORAGE_ACCESS_TOKEN_KEY,
           res?.accessToken || '',
         ).then(() => {
-          navigate('DashboardScreen');
+          replace('DashboardScreen');
+          messaging()
+          .getToken()
+          .then(fcmToken => {
+            updateFCMToken({
+              fcmToken,
+            });
+          });
         });
       });
     },

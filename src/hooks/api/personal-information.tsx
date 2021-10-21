@@ -4,7 +4,7 @@ import {DataTableParam, ListData, UserPersonalInformation} from '../../types';
 export const useGetPersonalInformationList = (param: DataTableParam) =>
   useGet<ListData<UserPersonalInformation>, DataTableParam>(
     '/personal-information/list',
-    param,
+    {...param},
   );
 
 export const useGetPersonalInformationDetail = (id: string) =>

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "924966242726",
+    "project_id": "helpma-bed67",
+    "storage_bucket": "helpma-bed67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924966242726:android:a9014375cbf1dd5683e767",
+        "android_client_info": {
+          "package_name": "com.helpmaadminrn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924966242726-vp9aj2336e1da99huurvcv7rsbctot9h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvaGusvH3D-J89s2SNjQmuoz4SKzlN9Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924966242726-vp9aj2336e1da99huurvcv7rsbctot9h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924966242726:android:b4c0447f1b0974d083e767",
+        "android_client_info": {
+          "package_name": "com.helpmauserrn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924966242726-vp9aj2336e1da99huurvcv7rsbctot9h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvaGusvH3D-J89s2SNjQmuoz4SKzlN9Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924966242726-vp9aj2336e1da99huurvcv7rsbctot9h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
