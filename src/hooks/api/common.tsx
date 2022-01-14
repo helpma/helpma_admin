@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ApiError, ApiResponse } from '../../types';
-import axios, { AxiosResponse, Method } from 'axios';
-import { navigate } from '../navigation';
-import { Alert } from 'react-native';
+import {useCallback, useEffect, useState} from 'react';
+import {ApiError, ApiResponse} from '../../types';
+import axios, {AxiosResponse, Method} from 'axios';
+import {navigate} from '../navigation';
+import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE_ACCESS_TOKEN_KEY } from '../../constant';
+import {STORAGE_ACCESS_TOKEN_KEY} from '../../constant';
 
 // export const API_BASE_URL = 'http://10.0.2.2:3000/v1';
-// export const API_BASE_URL = 'http://139.59.124.13/v1';
-export const API_BASE_URL = 'http://192.168.1.18:3000/v1';
+export const API_BASE_URL = 'http://139.59.124.13/api/v1';
+// export const API_BASE_URL = 'http://192.168.1.18:3000/v1';
 
 interface IFetch {
   error: ApiError[] | undefined;
@@ -32,7 +32,7 @@ export const useGet = <TResponse, TRequest>(
   useEffect(() => {
     if (!isFetched) {
       const doFetch = async () => {
-        console.log({ params })
+        console.log({params});
         try {
           const accessToken = await AsyncStorage.getItem(
             STORAGE_ACCESS_TOKEN_KEY,
@@ -53,7 +53,7 @@ export const useGet = <TResponse, TRequest>(
             Alert.alert(
               'Unauthorized',
               res.data?.errors?.[0]?.message ||
-              'Anda tidak memiliki permission untuk mengakses laman ini. Silahkan login kembali dengan akun anda yang benar',
+                'Anda tidak memiliki permission untuk mengakses laman ini. Silahkan login kembali dengan akun anda yang benar',
             );
             await AsyncStorage.clear();
             navigate('LoginScreen');
@@ -71,7 +71,7 @@ export const useGet = <TResponse, TRequest>(
           Alert.alert(
             'Terjadi kesalahan',
             err.message ||
-            'Terjadi kesalahan. Silahkan coba beberapa saat lagi',
+              'Terjadi kesalahan. Silahkan coba beberapa saat lagi',
           );
           setError([
             {
@@ -136,7 +136,7 @@ export const usePost = <TResponse, TRequest>(
           navigate('LoginScreen');
           throw new Error(
             res.data?.errors?.[0]?.message ||
-            'Anda tidak memiliki permission untuk mengakses laman ini. Silahkan login kembali dengan akun anda yang benar',
+              'Anda tidak memiliki permission untuk mengakses laman ini. Silahkan login kembali dengan akun anda yang benar',
           );
         }
 
